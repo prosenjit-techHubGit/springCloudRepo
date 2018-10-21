@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,6 +26,8 @@ import org.springframework.web.client.RestTemplate;
 import com.example.demo.model.Address;
 import com.example.demo.model.Assignment;
 import com.example.demo.model.Employee;
+import com.example.demo.model.UserDetails;
+import com.example.demo.model.UserInfo;
 import com.example.demo.service.EmployeeService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
@@ -102,6 +105,25 @@ public class UIcontroller {
 	  public Principal user(Principal principal) {
 	    return principal;
 	  }
+	
+	@GetMapping("/userInfo")
+	
+	public UserDetails getUserInfo() {
+		OAuth2AccessToken accessToken = clientContext.getAccessToken();
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.add("Authorization", "Bearer " + accessToken);
+
+		HttpEntity<String> request = new HttpEntity<String>(headers);
+
+		ResponseEntity<UserDetails> res = restTemplate.exchange("https://graph.facebook.com/me",
+				HttpMethod.GET, request,UserDetails.class);
+		System.out.println(res.getBody());
+		return res.getBody();
+		
+		
+	}
 	
 	
 

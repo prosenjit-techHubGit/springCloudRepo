@@ -123,6 +123,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 var routes = [
     {
+        path: "",
+        component: _home_home_component__WEBPACK_IMPORTED_MODULE_6__["HomeComponent"]
+    },
+    {
         path: "employee",
         component: _employee_details_employee_details_component__WEBPACK_IMPORTED_MODULE_2__["EmployeeDetailsComponent"],
         canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]]
@@ -245,12 +249,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
 /* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
 /* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -312,7 +318,8 @@ var AppModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatFormFieldModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatInputModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_15__["FormsModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_16__["AppRoutingModule"]
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_16__["AppRoutingModule"],
+                _angular_common__WEBPACK_IMPORTED_MODULE_20__["CommonModule"]
             ],
             providers: [_angular_common_http__WEBPACK_IMPORTED_MODULE_11__["HttpClient"], _employee_data_service__WEBPACK_IMPORTED_MODULE_12__["EmployeeDataService"], _auth_guard__WEBPACK_IMPORTED_MODULE_18__["AuthGuard"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_2__["AppComponent"]]
@@ -680,6 +687,7 @@ var AuthService = /** @class */ (function () {
         this.httpClient.get("/suite/user").
             subscribe(function (response) { if (response['name']) {
             _this.isAutheticated = true;
+            _this.getUserInfo();
         }
         else {
             _this.isAutheticated = false;
@@ -690,6 +698,14 @@ var AuthService = /** @class */ (function () {
         return this.httpClient.post('logout', {}).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["finalize"])(function () {
             _this.isAutheticated = false;
         }));
+    };
+    AuthService.prototype.getUserInfo = function () {
+        var _this = this;
+        this.httpClient.get("/suite/userInfo").
+            subscribe(function (response) { return _this.userName = response['name']; });
+    };
+    AuthService.prototype.getUserName = function () {
+        return this.userName;
     };
     AuthService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -996,7 +1012,7 @@ module.exports = ".full-width-table {\n  width: 100%;\n}\n"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"mat-elevation-z8\" >\n  <table mat-table class=\"full-width-table\" [dataSource]=\"dataSource\" aria-label=\"Elements\">\n    <!-- Id Column -->\n    <ng-container matColumnDef=\"email\">\n      <th mat-header-cell *matHeaderCellDef>Email</th>\n      <td mat-cell *matCellDef=\"let row\">{{row.email}}</td>\n    </ng-container>\n\n    <!-- Name Column -->\n    <ng-container matColumnDef=\"name\">\n      <th mat-header-cell *matHeaderCellDef >Name</th>\n      <td mat-cell *matCellDef=\"let row\">{{row.name}}</td>\n    </ng-container>\n\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n  </table>\n\n <!-- <mat-paginator #paginator\n      [length]=\"dataSource.data.length\"\n      [pageIndex]=\"0\"\n      [pageSize]=\"50\"\n      [pageSizeOptions]=\"[25, 50, 100, 250]\">\n  </mat-paginator> -->\n</div>\n<p>Add New Employee</p>\n<app-employee-create></app-employee-create>\n"
+module.exports = "<div class=\"mat-elevation-z8\" >\n  <table mat-table class=\"full-width-table\" [dataSource]=\"dataSource\" aria-label=\"Elements\">\n    <!-- Id Column -->\n    <ng-container matColumnDef=\"email\">\n      <th mat-header-cell *matHeaderCellDef>Email</th>\n      <td mat-cell *matCellDef=\"let row\">{{row.email}}</td>\n    </ng-container>\n\n    <!-- Name Column -->\n    <ng-container matColumnDef=\"name\">\n      <th mat-header-cell *matHeaderCellDef >Name</th>\n      <td mat-cell *matCellDef=\"let row\">{{row.name}}</td>\n    </ng-container>\n\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n  </table>\n\n <!-- <mat-paginator #paginator\n      [length]=\"dataSource.data.length\"\n      [pageIndex]=\"0\"\n      [pageSize]=\"50\"\n      [pageSizeOptions]=\"[25, 50, 100, 250]\">\n  </mat-paginator> -->\n</div>\n<h3>Add New Employee</h3>\n<app-employee-create></app-employee-create>\n"
 
 /***/ }),
 
@@ -1161,7 +1177,7 @@ module.exports = ".example-container {\r\n    display: flex;\r\n    flex-directi
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  home works!\n</p>\n<div class=\"example-container\">\n<button mat-button color=\"primary\"  (click)=\"logout()\">Log out</button>\n</div>\n\n\n\n"
+module.exports = "\n\n<!-- <ng-container *ngIf=\"isAuthenticated\">\n<div class=\"example-container\">\n<button mat-button color=\"primary\"  (click)=\"logout()\">Log out</button>\n</div>\n</ng-container> -->\n<ng-container *ngIf=\"isAuthenticated()\">\n<mat-card *ngIf=\"isAuthenticated()\" class=\"login-card\">\n    <mat-card-header>\n        <mat-card-title>Welcome, {{getuserInfo()}} </mat-card-title>\n    </mat-card-header>\n        <mat-card-content>\n            <div class=\"example-container\">\n              <p></p>\n                \n              </div>\n              \n              <mat-card-actions>\n              <!-- <button mat-button color=\"primary\"  (click)=\"loginOauth()\">Login with Facebook</button> -->\n              <button mat-raised-button color=\"accent\" (click)=\"logout()\">Log out</button>\n              \n            </mat-card-actions>  \n          \n\n        </mat-card-content>\n   </mat-card>\n  </ng-container>   \n\n\n\n<ng-container *ngIf=\"!isAuthenticated()\">\n    <app-login></app-login>\n</ng-container>\n\n\n\n"
 
 /***/ }),
 
@@ -1191,13 +1207,22 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var HomeComponent = /** @class */ (function () {
     function HomeComponent(_authService) {
         this._authService = _authService;
-        this.isAutheticated = _authService.isAutheticated;
     }
     HomeComponent.prototype.ngOnInit = function () {
     };
     HomeComponent.prototype.logout = function () {
         var _this = this;
         this._authService.logout().subscribe(function (data) { return _this.isAutheticated = false; });
+    };
+    HomeComponent.prototype.isAuthenticated = function () {
+        return this._authService.loggedIn();
+    };
+    HomeComponent.prototype.getuserInfo = function () {
+        if (this.isAuthenticated()) {
+            return this._authService.getUserName();
+        }
+        else
+            return "anonymous";
     };
     HomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1232,7 +1257,7 @@ module.exports = ".example-container {\r\n    display: flex;\r\n    flex-directi
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  login works!\n</p>\n\n<div class=\"example-container\">\n  <mat-form-field>\n    <input matInput placeholder=\"Username\" [(ngModel)]=\"employee.email\"/>\n  </mat-form-field>\n\n  <mat-form-field>\n    <input matInput placeholder=\"Password\" [(ngModel)]=\"employee.name\"/>\n  </mat-form-field>\n  <button mat-button color=\"primary\" (click)=\"login()\">Login</button>\n</div>\n\n<div class=\"example-container\">\n<button mat-button color=\"primary\"  (click)=\"loginOauth()\">Login with Facebook</button>\n<a href=\"login\">Login</a>\n</div>\n\n\n"
+module.exports = "\n<mat-card  class=\"login-card\">\n    <mat-card-header>\n        <mat-card-title>Login</mat-card-title>\n    </mat-card-header>\n        <mat-card-content>\n            <div class=\"example-container\">\n                <mat-form-field>\n                  <input matInput placeholder=\"Username\"/>\n                </mat-form-field>\n              \n                <mat-form-field>\n                  <input matInput placeholder=\"Password\">\n                </mat-form-field>\n                \n              </div>\n              \n              <mat-card-actions>\n              <!-- <button mat-button color=\"primary\"  (click)=\"loginOauth()\">Login with Facebook</button> -->\n              <button mat-raised-button color=\"primary\" (click)=\"login()\">Login</button>\n              \n            </mat-card-actions>  \n          \n\n        </mat-card-content>\n   </mat-card>\n  <p></p>\n   <div class=\"example-container\">\n   <a mat-raised-button  href=\"login\" color=\"primary\" >Sign in with Facebook</a>\n   </div>\n   "
 
 /***/ }),
 
