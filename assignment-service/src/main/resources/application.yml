@@ -1,0 +1,22 @@
+server:
+  port: 3100
+spring:
+  application:
+    name: assignment-service
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url:  jdbc:h2:~/test;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE
+    tomcat:
+      max-active: 3  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+   
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka 
+      
+      

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: employee-service
+ # cloud:
+  #  bus:
+   #   enabled: true
+
+
+
+     
+        
+         
+ 
