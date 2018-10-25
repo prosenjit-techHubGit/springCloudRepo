@@ -8,6 +8,8 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
+import com.example.demo.model.CustomUserDetails;
+
 @Configuration
 
 public class ServiceConfig {
@@ -18,6 +20,7 @@ public class ServiceConfig {
 
 		return new OAuth2RestTemplate(resource, context);
 	}
+	
 	
 	
 	

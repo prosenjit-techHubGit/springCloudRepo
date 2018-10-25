@@ -1,8 +1,18 @@
 server:
   port: 9999
+spring:
+  security:
+    user:
+      password: password
+  application:
+    name: assignment-service
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url:  jdbc:h2:~/test;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE       
 
-security:
- oauth2:
+facebook:
   client:
     clientId: 2127139123983127
     clientSecret: 8fd801cb21daa2cfbef9236398f18c2c

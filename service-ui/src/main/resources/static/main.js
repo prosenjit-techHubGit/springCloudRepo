@@ -693,6 +693,22 @@ var AuthService = /** @class */ (function () {
             _this.isAutheticated = false;
         } }, function () { _this.isAutheticated = false; });
     };
+    AuthService.prototype.authenticateHttpBasic = function (credentials, callback) {
+        var _this = this;
+        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"](credentials ? {
+            authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+        } : {});
+        this.httpClient.get('/suite/user', { headers: headers }).subscribe(function (response) {
+            if (response['name']) {
+                _this.isAutheticated = true;
+                _this.userName = response['name'];
+            }
+            else {
+                _this.isAutheticated = false;
+            }
+            return callback && callback();
+        });
+    };
     AuthService.prototype.logout = function () {
         var _this = this;
         return this.httpClient.post('logout', {}).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["finalize"])(function () {
@@ -1257,7 +1273,7 @@ module.exports = ".example-container {\r\n    display: flex;\r\n    flex-directi
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<mat-card  class=\"login-card\">\n    <mat-card-header>\n        <mat-card-title>Login</mat-card-title>\n    </mat-card-header>\n        <mat-card-content>\n            <div class=\"example-container\">\n                <mat-form-field>\n                  <input matInput placeholder=\"Username\"/>\n                </mat-form-field>\n              \n                <mat-form-field>\n                  <input matInput placeholder=\"Password\">\n                </mat-form-field>\n                \n              </div>\n              \n              <mat-card-actions>\n              <!-- <button mat-button color=\"primary\"  (click)=\"loginOauth()\">Login with Facebook</button> -->\n              <button mat-raised-button color=\"primary\" (click)=\"login()\">Login</button>\n              \n            </mat-card-actions>  \n          \n\n        </mat-card-content>\n   </mat-card>\n  <p></p>\n   <div class=\"example-container\">\n   <a mat-raised-button  href=\"login\" color=\"primary\" >Sign in with Facebook</a>\n   </div>\n   "
+module.exports = "\n<ng-container *ngIf=\"!loggedIn()\">\n<mat-card  class=\"login-card\">\n    <mat-card-header>\n        <mat-card-title>Login</mat-card-title>\n    </mat-card-header>\n        <mat-card-content>\n            <div class=\"example-container\">\n                <mat-form-field>\n                  <input matInput placeholder=\"Username\" [(ngModel)]=\"credentials.username\" />\n                </mat-form-field>\n              \n                <mat-form-field>\n                  <input matInput placeholder=\"Password\" [(ngModel)]=\"credentials.password\">\n                </mat-form-field>\n                \n              </div>\n              \n              <mat-card-actions>\n              <!-- <button mat-button color=\"primary\"  (click)=\"loginOauth()\">Login with Facebook</button> -->\n              <button mat-raised-button color=\"primary\" (click)=\"loginHttp()\">Login</button>\n              \n            </mat-card-actions>  \n          \n\n        </mat-card-content>\n   </mat-card>\n </ng-container>\n <ng-container  *ngIf=\"loggedIn()\">  \n  <p>Welcome, {{getUserName()}} </p>\n  </ng-container>\n   <div class=\"example-container\">\n   <a mat-raised-button  href=\"login/facebook\" color=\"primary\" >Sign in with Facebook</a>\n   <a mat-raised-button  href=\"login\" color=\"primary\" >Basic Login</a>\n   </div>\n   "
 
 /***/ }),
 
@@ -1272,6 +1288,8 @@ module.exports = "\n<mat-card  class=\"login-card\">\n    <mat-card-header>\n   
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginComponent", function() { return LoginComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1282,10 +1300,30 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent() {
+    function LoginComponent(_authService, router) {
+        this._authService = _authService;
+        this.router = router;
+        this.credentials = { username: '', password: '' };
     }
     LoginComponent.prototype.ngOnInit = function () {
+    };
+    LoginComponent.prototype.loginHttp = function () {
+        var _this = this;
+        console.log(this.credentials);
+        console.log(this.credentials.username);
+        console.log(this.credentials.password);
+        this._authService.authenticateHttpBasic(this.credentials, function () {
+            _this.router.navigateByUrl('/');
+        });
+    };
+    LoginComponent.prototype.loggedIn = function () {
+        return this._authService.loggedIn();
+    };
+    LoginComponent.prototype.getUserName = function () {
+        return this._authService.getUserName();
     };
     LoginComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1293,7 +1331,7 @@ var LoginComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./login.component.html */ "./src/app/login/login.component.html"),
             styles: [__webpack_require__(/*! ./login.component.css */ "./src/app/login/login.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], LoginComponent);
     return LoginComponent;
 }());
