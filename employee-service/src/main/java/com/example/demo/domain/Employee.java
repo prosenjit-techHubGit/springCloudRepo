@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="pd_employee")
@@ -68,7 +70,9 @@ public class Employee {
 	public void setManager(String manager) {
 		this.manager = manager;
 	}
-
+    
+	@NotBlank
+	@Email
 	private String email;
 	private String phone;
 	private String department;

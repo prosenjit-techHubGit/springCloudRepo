@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +77,7 @@ public class ServiceMainController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/create")
 
-	public Employee create(@RequestBody Employee employee) {
+	public Employee create(@Valid @RequestBody Employee employee) {
 		
 		System.out.println("Recieved" + employee.getEmail());  
 		

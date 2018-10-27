@@ -42,9 +42,9 @@ public class Service1Application {
 		SpringApplication.run(Service1Application.class, args);
 	}
 
-	@PostConstruct
+/*	@PostConstruct
 	void init() {
 
 		employeeRepository.save(new Employee("Prosenjit","Prosnejit@email.com","1233435","CTS","Sabari"));
-	}
+	} */
 }
