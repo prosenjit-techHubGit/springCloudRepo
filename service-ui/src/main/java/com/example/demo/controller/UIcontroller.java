@@ -90,6 +90,7 @@ public class UIcontroller {
 		System.out.println(accessToken);
 		System.out.println(oauth2RestTemplate.getResource().isAuthenticationRequired());
 		System.out.println(oauth2RestTemplate.getOAuth2ClientContext().getAccessToken());
+		System.out.println("Creating employee");
        
 		/*
 		 * ResponseEntity<String> resp =
