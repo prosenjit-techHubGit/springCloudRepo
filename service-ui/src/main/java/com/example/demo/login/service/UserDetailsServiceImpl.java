@@ -20,8 +20,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
+		
+		System.out.println("Loading user details for " + email);
 		User user = userService.findUserByEmail(email);
-
+        System.out.println(user);
 		CustomUserDetails userDetails;
 
 		if (user != null) {
@@ -31,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		} else {
 			throw new UsernameNotFoundException("User not found.");
 		}
-
+        System.out.println(userDetails);
 		return userDetails;
 
 	}

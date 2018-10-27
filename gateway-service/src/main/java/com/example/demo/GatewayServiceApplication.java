@@ -9,7 +9,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @EnableZuulProxy
-@EnableResourceServer
+//@EnableResourceServer
 @SpringBootApplication
 @EnableDiscoveryClient
 public class GatewayServiceApplication {

@@ -20,17 +20,33 @@ public class UserService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
+
 	public UserService(UserRepository userRepository, RoleRepository roleRepository,
 			BCryptPasswordEncoder bCryptPasswordEncoder) {
 		super();
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+
 	}
 
-	public User findUserByEmail(String email) {
+	/*
+	 * public UserService() { }
+	 */
 
-		return userRepository.findByEmail(email);
+	public User findUserByEmail(String email) {
+		System.out.println("In User Service " + email);
+		User user = null;
+		// System.out.println("Calling User repository" +
+		// userRepository.findById(Long.parseLong(email)).get());
+		try {
+
+			user = userRepository.findByEmail(email);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user;
+
 	}
 
 	public void saveUser(User user) {

@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
@@ -45,7 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// TODO Auto-generated method stub
 		http.csrf().disable().authorizeRequests().antMatchers("/login**", "/**").permitAll().anyRequest()
-				.authenticated().and().addFilterAfter(ssoFilter(), BasicAuthenticationFilter.class).httpBasic();
+				.authenticated().and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class).httpBasic().and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 
 		// .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());;
 
@@ -54,12 +56,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+
 		/*
 		 * auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser(
 		 * "john123") .password(passwordEncoder().encode("password")).roles("USER");
 		 */
 
-		auth.userDetailsService(userDetailsService());
+		auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
 	}
 
 	@Bean

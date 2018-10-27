@@ -1,0 +1,32 @@
+server:
+  port: 5555
+  servlet:
+    context-path: /services
+security:
+  oauth2:
+    resource:
+      user-info-uri: https://graph.facebook.com/me   
+
+zuul:
+  routes:
+    employee:
+      path: /employee/**
+      serviceId: employee-service-140837
+
+hystrix:
+  command:
+    employee-service:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000                    
+
+eureka:
+  client:
+    service-url:
+      defaultZone:  http://localhost:8761/eureka
+    enabled: true
+    fetch-registry: true 
+    register-with-eureka: true
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}} 

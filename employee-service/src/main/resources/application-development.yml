@@ -1,0 +1,26 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka 
+    enabled: true
+    fetch-registry: true 
+    register-with-eureka: true
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url:  jdbc:mysql://192.168.99.100:3306/servicedb?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: Appian6$
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+   
+ 

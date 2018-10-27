@@ -1,0 +1,72 @@
+server:
+  port: 9999  
+---  
+spring:
+  security:
+    user:
+      password: password
+  application:
+    name: service-client
+ 
+ 
+  datasource:
+    url:  jdbc:mysql://192.168.99.100:3306/userdb?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: Appian6$
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  profiles:
+    include:
+    - development
+debug: true     
+---
+    
+spring:
+  security:
+    user:
+      password: password
+  application:
+    name: service-client
+ 
+ 
+  datasource:
+    url:  jdbc:mysql://191.168.99.100:3306/userdb?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: Appian6$
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  profiles:
+    include:
+    - cloud    
+    
+              
+
+facebook:
+  client:
+    clientId: --replace me--
+    clientSecret: --replace me--
+    accessTokenUri: https://graph.facebook.com/oauth/access_token
+    userAuthorizationUri: https://www.facebook.com/dialog/oauth
+    tokenName: oauth_token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://graph.facebook.com/me
+    
+hystrix:
+ command:
+  getAPIData:
+   execution:
+    isolation:
+     thread:
+      timeoutInMilliseconds=10000     

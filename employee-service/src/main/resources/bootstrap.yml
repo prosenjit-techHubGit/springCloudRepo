@@ -1,11 +1,15 @@
 spring:
   application:
-    name: employee-service
+    name: employee-service-140837
  # cloud:
   #  bus:
    #   enabled: true
+  profiles:
+    active:
+    - production
 
-
+server:
+  port: 9091  
 
      
         

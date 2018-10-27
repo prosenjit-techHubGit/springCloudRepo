@@ -1,16 +1,28 @@
-server:
-  port: 9999
+app:
+ gateway:
+  service-url: https://gateway-service-140837.cfapps.io/services/
+
 spring:
   security:
     user:
       password: password
-  application:
-    name: assignment-service
-  h2:
-    console:
-      enabled: true
+  
+ 
+ 
   datasource:
-    url:  jdbc:h2:~/test;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE       
+    url:  jdbc:mysql://191.168.99.100:3306/userdb?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: Appian6$
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  
+debug: true  
+
 
 facebook:
   client:
